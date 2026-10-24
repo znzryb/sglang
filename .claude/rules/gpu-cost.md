@@ -1,13 +1,22 @@
-# Running on paid GPUs (Modal, cloud): minimum cost first
+# Running on paid GPUs (Modal, cloud): minimum cost that completes the task
 
 GPU time is paid for with real money. Every remote GPU run must be the cheapest
-run that answers the question.
+run that still completes the task -- not the cheapest card in absolute terms.
 
 ## Before launching
 
-- **Pick the cheapest GPU that fits.** Order: L4 / A10G -> L40S -> A100 -> H100.
-  Move up only when a cheaper card cannot fit the model or reproduce the
-  behavior (e.g. needs SM90, FP8 tensor cores, > 48 GB), and state why.
+- **Minimize total cost, not the hourly rate.** Total = per-GPU rate x GPU
+  count x wall time, plus setup (image build, weight download) and the risk of
+  a failed run. A card too small to finish the job is not cheap.
+- **Pick the configuration that fits at the lowest total cost.** For single-GPU
+  work try L4 / A10G -> L40S -> A100 -> H100, moving up only when a cheaper
+  card cannot fit the model or reproduce the behavior (e.g. needs SM90, FP8
+  tensor cores, more memory), and state why.
+- **Weigh one big GPU against several small ones.** When a model does not fit
+  one card, compare e.g. 1 x H100 vs 2 x L40S vs 4 x L4: more GPUs add TP
+  communication overhead, longer startup, more failure points, and may need
+  flags the real deployment does not use. Choose the option with the lowest
+  total cost that still reproduces the target configuration.
 - **Pick the smallest model that reproduces the problem.** Use a tiny or Lite
   checkpoint of the same architecture before a full-size one.
 - **Preflight on CPU first.** Run the script's tooling checks in a CPU-only
