@@ -1,0 +1,66 @@
+✓ Initialized. View run at 
+https://modal.com/apps/znzryb34/main/ap-4X3SDuKQHkTsCsTLxrdHsX
+✓ Created objects.
+├── ✓ Uploaded 
+│   /private/tmp/claude-501/-Users-zzy-Documents-GitHub-sglang/65a779e5-182b-4e5
+│   9-aa9f-1250b0113e20/scratchpad/modal_env/gpu_run.py
+├── ✓ Uploaded 
+│   /private/tmp/claude-501/-Users-zzy-Documents-GitHub-sglang/65a779e5-182b-4e5
+│   9-aa9f-1250b0113e20/scratchpad/modal_env/repro
+├── ✓ Uploaded 
+│   /private/tmp/claude-501/-Users-zzy-Documents-GitHub-sglang/65a779e5-182b-4e5
+│   9-aa9f-1250b0113e20/scratchpad/modal_env/../sgl-main/python
+├── ✓ Uploaded 
+│   /private/tmp/claude-501/-Users-zzy-Documents-GitHub-sglang/65a779e5-182b-4e5
+│   9-aa9f-1250b0113e20/scratchpad/modal_env/../sgl-main/python/pyproject.toml
+├── ✓ Created Function run_h100.
+├── ✓ Created Function run_a100.
+├── ✓ Created Function run_h100x2.
+├── ✓ Created Function run_h100x4.
+├── ✓ Created Function run_l4.
+└── ✓ Created Function run_cpu.
+==========
+== CUDA ==
+==========
+CUDA Version 13.0.1
+Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
+$ nvidia-smi -L; bash awq_verify.sh 100
+GPU 0: NVIDIA L4 (UUID: GPU-70f8d690-27c0-931f-941d-0e8718ab64a4)
+[stage] import-check: 104:        from sglang.kernels.kernel_api_logging import debug_kernel_api
+[stage] jit cache restored: 8 kernels, nproc=4
+[stage] download
+[stage] launch
+[wait] 30s no-new-log=0s: vertible to awq_marlin during runtime. Using awq_marlin kernel. [2026-10-24 16:58:42] Attention backend not specified. Use triton backend by default. 
+[wait] 60s no-new-log=0s: ecoder Sequence -> ByteLevel [2026-10-24 16:59:12] Restoring add_bos_token=True for TechxGenus/DeepSeek-V2-Lite-Chat-AWQ (was False after v5 loading) 
+[wait] 90s no-new-log=5s: em=6.68 GB    0%|          | 0/50 [00:00<?, ?it/s] Capturing prefill shape (num_tokens=4096 avail_mem=6.68 GB):   0%|          | 0/50 [00:00<?, ?it/s]
+[wait] 120s no-new-log=35s: em=6.68 GB    0%|          | 0/50 [00:00<?, ?it/s] Capturing prefill shape (num_tokens=4096 avail_mem=6.68 GB):   0%|          | 0/50 [00:00<?, ?it/s]
+[wait] 150s no-new-log=65s: em=6.68 GB    0%|          | 0/50 [00:00<?, ?it/s] Capturing prefill shape (num_tokens=4096 avail_mem=6.68 GB):   0%|          | 0/50 [00:00<?, ?it/s]
+[wait] 180s no-new-log=95s: em=6.68 GB    0%|          | 0/50 [00:00<?, ?it/s] Capturing prefill shape (num_tokens=4096 avail_mem=6.68 GB):   0%|          | 0/50 [00:00<?, ?it/s]
+[wait] 210s no-new-log=125s: em=6.68 GB    0%|          | 0/50 [00:00<?, ?it/s] Capturing prefill shape (num_tokens=4096 avail_mem=6.68 GB):   0%|          | 0/50 [00:00<?, ?it/s]
+[wait] 240s no-new-log=155s: em=6.68 GB    0%|          | 0/50 [00:00<?, ?it/s] Capturing prefill shape (num_tokens=4096 avail_mem=6.68 GB):   0%|          | 0/50 [00:00<?, ?it/s]
+[wait] 270s no-new-log=185s: em=6.68 GB    0%|          | 0/50 [00:00<?, ?it/s] Capturing prefill shape (num_tokens=4096 avail_mem=6.68 GB):   0%|          | 0/50 [00:00<?, ?it/s]
+[wait] 300s no-new-log=215s: em=6.68 GB    0%|          | 0/50 [00:00<?, ?it/s] Capturing prefill shape (num_tokens=4096 avail_mem=6.68 GB):   0%|          | 0/50 [00:00<?, ?it/s]
+[wait] 330s no-new-log=245s: em=6.68 GB    0%|          | 0/50 [00:00<?, ?it/s] Capturing prefill shape (num_tokens=4096 avail_mem=6.68 GB):   0%|          | 0/50 [00:00<?, ?it/s]
+[wait] 360s no-new-log=275s: em=6.68 GB    0%|          | 0/50 [00:00<?, ?it/s] Capturing prefill shape (num_tokens=4096 avail_mem=6.68 GB):   0%|          | 0/50 [00:00<?, ?it/s]
+[wait] 390s no-new-log=305s: em=6.68 GB    0%|          | 0/50 [00:00<?, ?it/s] Capturing prefill shape (num_tokens=4096 avail_mem=6.68 GB):   0%|          | 0/50 [00:00<?, ?it/s]
+[wait] 420s no-new-log=0s: 29/50 [05:42<00:06,  3.45it/s] Capturing prefill shape (num_tokens=240 avail_mem=5.19 GB):  58%|█████▊    | 29/50 [05:42<00:06,  3.45it/s]
+[wait] 450s no-new-log=0s:  127.0.0.1:25454 - "GET /model_info HTTP/1.1" 200 OK [2026-10-24 17:05:52] INFO:     127.0.0.1:37941 - "GET /health HTTP/1.1" 503 Service Unavailable 
+[stage] server up
+[2026-10-24 16:59:35] Load weight end. elapsed=15.29 s, type=DeepseekV2ForCausalLM, quant=awq, bits=4, avail mem=13.12 GB, mem usage=8.70 GB.
+[2026-10-24 17:05:30] Capture target prefill CUDA graph end. elapsed=351.08 s, mem usage=1.05 GB, avail mem=5.64 GB.
+[2026-10-24 17:05:47] Capture target decode CUDA graph end. bs=[1, 2, 4, 8, 12, 16, 24, 32, 40, 48], elapsed=17.84 s, mem usage=0.24 GB, avail mem=5.40 GB.
+[stage] chat
+{"id":"900b953e035549abbe91fd44911a757c","object":"chat.completion","created":1792861566,"model":"TechxGenus/DeepSeek-V2-Lite-Chat-AWQ","choices":[{"index":0,"message":{"role":"assistant","content":" 17 * 23 = 391","reasoning_content":null},"logprobs":null,"finish_reason":"stop","matched_stop":100001}],"usage":{"prompt_tokens":22,"total_tokens":35,"completion_tokens":13,"prompt_tokens_details":null,"reasoning_tokens":0,"completion_tokens_details":null},"metadata":{"weight_version":"default","weight_versions":[{"version":"default","start":0,"end":13}]}}
+[stage] gsm8k n=100
+  error_rate           =  0.00%
+[stage] done
+awq_verify.sh: line 4:    50 Killed                  python3 -m sglang.launch_server --model-path $M --trust-remote-code --host 127.0.0.1 --port 30000 > $LOG 2>&1
+[stage] cleanup done (jit cache saved: 10 kernels)
+[exit 0]
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/znzryb34/main/ap-4X3SDuKQHkTsCsTLxrdHsX

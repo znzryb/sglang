@@ -8,7 +8,8 @@ import subprocess
 
 import modal
 
-REPO = "/Users/zzy/Documents/GitHub/sglang"
+import os
+REPO = os.environ.get("SGL_REPO", "/Users/zzy/Documents/GitHub/sglang")
 
 image = (
     modal.Image.from_registry("nvidia/cuda:13.0.1-devel-ubuntu24.04", add_python="3.12")
@@ -21,6 +22,7 @@ image = (
         "print('\\n'.join(d['project']['dependencies']))\" > req.txt && "
         "uv pip install --system -r req.txt",
     )
+    .run_commands("uv venv /opt/sgleval --python 3.12 && VIRTUAL_ENV=/opt/sgleval uv pip install sgl-eval==0.1.3")
     .env({"CUDA_HOME": "/usr/local/cuda", "PYTHONPATH": "/sgl/python"})
     .add_local_dir(f"{REPO}/python", "/sgl/python", ignore=["**/__pycache__", "**/*.so"])
     .add_local_dir("repro", "/work/repro")
@@ -50,6 +52,26 @@ def run_a100(cmd: str):
     _run(cmd)
 
 
+@app.function(gpu="H100:2", **kw)
+def run_h100x2(cmd: str):
+    _run(cmd)
+
+
+@app.function(gpu="H100:4", **kw)
+def run_h100x4(cmd: str):
+    _run(cmd)
+
+
+@app.function(gpu="L4", cpu=4, timeout=1200, volumes=kw["volumes"])
+def run_l4(cmd: str):
+    _run(cmd)
+
+
+@app.function(cpu=2, timeout=600, volumes=kw["volumes"])
+def run_cpu(cmd: str):
+    _run(cmd)
+
+
 @app.local_entrypoint()
 def main(cmd: str = "nvidia-smi", gpu: str = "H100"):
-    {"H100": run_h100, "A100": run_a100}[gpu].remote(cmd)
+    {"H100": run_h100, "A100": run_a100, "H100x2": run_h100x2, "H100x4": run_h100x4, "L4": run_l4, "CPU": run_cpu}[gpu].remote(cmd)
