@@ -44,6 +44,31 @@ run that still completes the task -- not the cheapest card in absolute terms.
 - **Fail fast.** A health check must exit as soon as the server process dies
   or its probe errors, never loop until the timeout.
 
+## Known Modal pitfalls (each one has burned money here)
+
+- **GPU functions get ~1 vCPU by default.** SGLang JIT-compiles CUDA kernels
+  (Marlin GEMM/MoE take 4-5 min each on one core) on first use, so a cold
+  startup can exceed 15 min with the GPU idle. Set `cpu=` (e.g. 4-8) on GPU
+  functions; extra cores are far cheaper than idle GPU minutes.
+- **Persist the JIT cache.** SGLang builds kernels under
+  `/root/.cache/sglang/jit`; mount a Volume there (or copy to/from one) so a
+  rerun does not recompile. A volume mounted at a different path saves nothing.
+- **The CUDA base image has no `curl`.** Health checks written with `curl`
+  fail forever and look like a slow startup. Use Python `urllib` (and never
+  name a helper script `http.py`, which shadows the stdlib `http` package).
+- **Stopping the local `modal run` does not always stop the app.** Ephemeral
+  apps can keep running; verify with `modal app list` and stop leftovers with
+  `modal app stop -y <id>`.
+- **A silent log is not necessarily a hang.** Before killing, look inside:
+  `modal container list`, then `modal container exec <id> -- ps -eo etime,pcpu,args`
+  or `py-spy dump --pid <pid>` (e.g. a stuck "Capturing prefill shape" was
+  actually `nvcc`/`cicc` compiling on one core).
+- **Credits do not cap spend.** On the Starter plan, usage past the monthly
+  credits is charged to the card up to a Modal-set limit that auto-raises.
+  Only a user-set spend limit stops it. Credits and `modal billing report`
+  lag real usage by up to an hour, so a falling balance after all apps stopped
+  is delayed metering, not a running job (confirm with `modal container list`).
+
 ## After a run, or when it fails
 
 - **Read the log before rerunning.** Find the actual cause; never rerun with a
