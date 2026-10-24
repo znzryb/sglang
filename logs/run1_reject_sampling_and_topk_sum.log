@@ -1,0 +1,115 @@
+✓ Initialized. View run at 
+https://modal.com/apps/znzryb34/main/ap-Qdf2Wy3RelqRvO5FTOpvd5
+✓ Created objects.
+├── ✓ Uploaded 
+│   /private/tmp/claude-501/-Users-zzy-Documents-GitHub-sglang/65a779e5-182b-4e5
+│   9-aa9f-1250b0113e20/scratchpad/modal_env/gpu_run.py
+├── ✓ Uploaded 
+│   /private/tmp/claude-501/-Users-zzy-Documents-GitHub-sglang/65a779e5-182b-4e5
+│   9-aa9f-1250b0113e20/scratchpad/modal_env/repro
+├── ✓ Uploaded /Users/zzy/Documents/GitHub/sglang/python
+├── ✓ Uploaded /Users/zzy/Documents/GitHub/sglang/python/pyproject.toml
+├── ✓ Created Function run_h100.
+└── ✓ Created Function run_a100.
+
+==========
+== CUDA ==
+==========
+
+CUDA Version 13.0.1
+
+Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+
+A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
+
+$ bash run_all.sh
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### python reject_sampling_overflow.py orig 3531
+variant=orig bs=3531 V=152064 nd=4 bs*nd*V=2147751936 (2^31=2147483648)
+first overflowing row: 3531
+wrong rows: 0 / 3531
+[rc=0]
+### python reject_sampling_overflow.py orig 3532
+variant=orig bs=3532 V=152064 nd=4 bs*nd*V=2148360192 (2^31=2147483648)
+first overflowing row: 3531
+Traceback (most recent call last):
+  File "/work/repro/reject_sampling_overflow.py", line 52, in <module>
+    torch.cuda.synchronize()
+  File "/usr/local/lib/python3.12/site-packages/torch/cuda/__init__.py", line 1281, in synchronize
+    return torch._C._cuda_synchronize()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.AcceleratorError: CUDA error: operation not supported on global/shared address space
+Search for `cudaErrorInvalidAddressSpace' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+The CUDA driver logged these messages, which may provide useful details:
+Returning 717 (CUDA_ERROR_INVALID_ADDRESS_SPACE) from cuCtxSynchronize_v2
+
+
+[rc=1]
+### python reject_sampling_overflow.py orig 4000
+variant=orig bs=4000 V=152064 nd=4 bs*nd*V=2433024000 (2^31=2147483648)
+first overflowing row: 3531
+Traceback (most recent call last):
+  File "/work/repro/reject_sampling_overflow.py", line 52, in <module>
+    torch.cuda.synchronize()
+  File "/usr/local/lib/python3.12/site-packages/torch/cuda/__init__.py", line 1281, in synchronize
+    return torch._C._cuda_synchronize()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.AcceleratorError: CUDA error: an illegal memory access was encountered
+Search for `cudaErrorIllegalAddress' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+The CUDA driver logged these messages, which may provide useful details:
+Returning 700 (CUDA_ERROR_ILLEGAL_ADDRESS) from cuCtxSynchronize_v2
+
+
+[rc=1]
+### python reject_sampling_overflow.py fixed 4000
+variant=fixed bs=4000 V=152064 nd=4 bs*nd*V=2433024000 (2^31=2147483648)
+first overflowing row: 3531
+wrong rows: 0 / 4000
+[rc=0]
+### sanitizer orig 3532
+========= Invalid __global__ read of size 4 bytes
+=========     at speculative_sampling_classic_kernel+0x2d0 in reject_sampling.py:135
+=========     Access to 0x2ae43c106000 is out of bounds
+=========         Host Frame: chain_speculative_sampling_triton in reject_sampling.py:267
+========= Invalid __global__ read of size 4 bytes
+=========     at speculative_sampling_classic_kernel+0x2d0 in reject_sampling.py:135
+=========     Access to 0x2ae43c106000 is out of bounds
+=========         Host Frame: chain_speculative_sampling_triton in reject_sampling.py:267
+========= Invalid __global__ read of size 4 bytes
+=========     at speculative_sampling_classic_kernel+0x2d0 in reject_sampling.py:135
+=========     Access to 0x2ae43c106000 is out of bounds
+=========         Host Frame: chain_speculative_sampling_triton in reject_sampling.py:267
+### sanitizer fixed 3532
+wrong rows: 0 / 3532
+========= ERROR SUMMARY: 0 errors
+### python moe_topk_sum_grid.py 65535
+M=65535 ok, max_abs_err=0.0000
+[rc=0]
+### python moe_topk_sum_grid.py 65536
+M=65536 FAILED: RuntimeError: Failed at /sgl/python/sglang/kernels/jit/csrc/moe/topk_sum.cuh:99: CUDA error: invalid argument
+[rc=0]
+[exit 0]
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/znzryb34/main/ap-Qdf2Wy3RelqRvO5FTOpvd5

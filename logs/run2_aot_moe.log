@@ -1,0 +1,272 @@
+✓ Initialized. View run at 
+https://modal.com/apps/znzryb34/main/ap-DNs2IozwZ3zHHKgAiHp7sr
+✓ Created objects.
+├── ✓ Uploaded 
+│   /private/tmp/claude-501/-Users-zzy-Documents-GitHub-sglang/65a779e5-182b-4e5
+│   9-aa9f-1250b0113e20/scratchpad/modal_env/gpu_run.py
+├── ✓ Uploaded 
+│   /private/tmp/claude-501/-Users-zzy-Documents-GitHub-sglang/65a779e5-182b-4e5
+│   9-aa9f-1250b0113e20/scratchpad/modal_env/repro
+├── ✓ Uploaded /Users/zzy/Documents/GitHub/sglang/python
+├── ✓ Uploaded /Users/zzy/Documents/GitHub/sglang/python/pyproject.toml
+├── ✓ Created Function run_h100.
+└── ✓ Created Function run_a100.
+
+==========
+== CUDA ==
+==========
+
+CUDA Version 13.0.1
+
+Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+
+A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
+
+$ bash run_aot.sh
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### python apply_shuffle_mul_sum_overflow.py 37440
+m=37440 m*topk*k=2146959360 (2^31=2147483648)
+wrong rows: 0 / 37440
+[rc=0]
+### python apply_shuffle_mul_sum_overflow.py 37500
+m=37500 m*topk*k=2150400000 (2^31=2147483648)
+Traceback (most recent call last):
+  File "/work/repro/apply_shuffle_mul_sum_overflow.py", line 11, in <module>
+    torch.cuda.synchronize()
+  File "/usr/local/lib/python3.12/site-packages/torch/cuda/__init__.py", line 1281, in synchronize
+    return torch._C._cuda_synchronize()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.AcceleratorError: CUDA error: operation not supported on global/shared address space
+Search for `cudaErrorInvalidAddressSpace' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+The CUDA driver logged these messages, which may provide useful details:
+Returning 717 (CUDA_ERROR_INVALID_ADDRESS_SPACE) from cuCtxSynchronize_v2
+
+
+[rc=1]
+### sanitizer apply_shuffle_mul_sum 37500
+=========         Host Frame: <module> in apply_shuffle_mul_sum_overflow.py:2
+=========         Host Frame: <module> in apply_shuffle_mul_sum_overflow.py:2
+========= ERROR SUMMARY: 2601 errors
+========= ERROR SUMMARY: 2599 errors were not printed. Use --print-limit option to adjust the number of printed errors
+### python moe_sum_reduce_gridy.py 524280 bf16
+T=524280 bf16 wrong rows: 0
+[rc=0]
+### python moe_sum_reduce_gridy.py 524296 bf16
+T=524296 bf16 wrong rows: 16 (first=524280)
+[rc=0]
+### python moe_sum_reduce_gridy.py 262140 fp16
+T=262140 fp16 wrong rows: 0
+[rc=0]
+### python moe_sum_reduce_gridy.py 262152 fp16
+T=262152 fp16 wrong rows: 12 (first=262140)
+[rc=0]
+[exit 0]
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/znzryb34/main/ap-DNs2IozwZ3zHHKgAiHp7sr
