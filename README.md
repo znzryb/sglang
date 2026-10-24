@@ -10,7 +10,7 @@
 
 | # | 位置 | 问题类型 | 触发阈值 | 实测结果 | 已有 PR / issue |
 |---|------|----------|----------|----------|-----------------|
-| 1 | `python/sglang/kernels/ops/speculative/reject_sampling.py:37`（Triton） | `pid * stride_tp_b` 用 int32 计算，溢出 | `bs*nd*V ≥ 2^31`（Qwen V=152064、nd=4 时 bs ≥ 3532） | bs=3531 正常；bs=3532 报 `CUDA_ERROR_INVALID_ADDRESS_SPACE`；bs=4000 报 illegal memory access；sanitizer 报 `Invalid __global__ read` @ `reject_sampling.py:135`。改成 `.to(tl.int64)` 后 bs=4000 时 0/4000 行错误，sanitizer 0 errors | 无。#41283（OPEN）改的是同一个 kernel，但没修这个问题 |
+| 1 | `python/sglang/kernels/ops/speculative/reject_sampling.py:37`（Triton，已提 issue #46299） | `pid * stride_tp_b` 用 int32 计算，溢出 | `bs*nd*V ≥ 2^31`（Qwen V=152064、nd=4 时 bs ≥ 3532） | bs=3531 正常；bs=3532 报 `CUDA_ERROR_INVALID_ADDRESS_SPACE`；bs=4000 报 illegal memory access；sanitizer 报 `Invalid __global__ read` @ `reject_sampling.py:135`。改成 `.to(tl.int64)` 后 bs=4000 时 0/4000 行错误，sanitizer 0 errors | 无。#41283（OPEN）改的是同一个 kernel，但没修这个问题 |
 | 2 | `python/sglang/kernels/jit/csrc/moe/topk_sum.cuh:98`（JIT CUDA） | M 放在 `gridDim.y`，没有限制在 65535 以内 | M ≥ 65536 | M=65535 正常；M=65536 报 `CUDA error: invalid argument` @ `topk_sum.cuh:99` | #34822 修过，但已关闭且未合并 |
 | 3 | `python/sglang/kernels/aot/csrc/moe/prepare_moe_input.cu`，`apply_shuffle_mul_sum`（AOT） | `src_row * row_stride` 用 int32 计算，溢出 | `m*topk*k ≥ 2^31`（DSV3 k=7168、topk=8 时 m ≥ 37450） | m=37440 正常；m=37500 报 `CUDA_ERROR_INVALID_ADDRESS_SPACE`；sanitizer 报 2601 处错误 | 无。#25495 改了同一个 kernel，但没修这个问题 |
 | 4 | `python/sglang/kernels/aot/csrc/moe/moe_sum_reduce.cu`（AOT） | `grid.y` 被截到 65535，但没有按 token 做 stride 循环，尾部 token 不写输出，属于静默错误 | bf16 时 T > 524280；fp16 时 T > 262140 | bf16 T=524296 有 16 行没写；fp16 T=262152 有 12 行没写，首个出错行正好是阈值 | 无 |
