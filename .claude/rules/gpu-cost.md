@@ -28,7 +28,17 @@ run that still completes the task -- not the cheapest card in absolute terms.
 
 ## While running
 
-- **One job at a time.** No parallel batches unless the user explicitly asks.
+- **Parallel jobs are fine; unwatched jobs are not.** Every running job must be
+  monitored until it ends.
+- **Poll the live logs.** `modal run` streams container stdout/stderr live to
+  the local process (tee it to a file and read that file), and
+  `modal app logs <app-id>` attaches to any running app. Check within the first
+  1-2 minutes of each job, then at intervals matched to its next expected
+  milestone (image built, weights loaded, server up, eval done). Polling reads
+  Modal's control plane, not the container, so it costs no GPU time.
+- **Stop on the first anomaly.** A repeated error line, a missing command, or
+  no progress past the expected milestone means `modal app stop -y <id>` now,
+  not after the timeout. Never wait passively for a completion notification.
 - **Hard timeout on every job** (container `timeout` plus a shell `timeout`),
   sized to the expected runtime, not a generous upper bound.
 - **Fail fast.** A health check must exit as soon as the server process dies
