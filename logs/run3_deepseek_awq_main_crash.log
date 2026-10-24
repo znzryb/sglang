@@ -1,0 +1,190 @@
+✓ Initialized. View run at 
+https://modal.com/apps/znzryb34/main/ap-gFGO5xF2NfVbyWOF9VepoJ
+✓ Created objects.
+├── ✓ Uploaded 
+│   /private/tmp/claude-501/-Users-zzy-Documents-GitHub-sglang/65a779e5-182b-4e5
+│   9-aa9f-1250b0113e20/scratchpad/modal_env/gpu_run.py
+├── ✓ Uploaded 
+│   /private/tmp/claude-501/-Users-zzy-Documents-GitHub-sglang/65a779e5-182b-4e5
+│   9-aa9f-1250b0113e20/scratchpad/modal_env/repro
+├── ✓ Uploaded 
+│   /private/tmp/claude-501/-Users-zzy-Documents-GitHub-sglang/65a779e5-182b-4e5
+│   9-aa9f-1250b0113e20/scratchpad/modal_env/../sgl-main/python
+├── ✓ Uploaded 
+│   /private/tmp/claude-501/-Users-zzy-Documents-GitHub-sglang/65a779e5-182b-4e5
+│   9-aa9f-1250b0113e20/scratchpad/modal_env/../sgl-main/python/pyproject.toml
+├── ✓ Created Function run_h100.
+├── ✓ Created Function run_a100.
+├── ✓ Created Function run_h100x2.
+└── ✓ Created Function run_h100x4.
+
+==========
+== CUDA ==
+==========
+
+CUDA Version 13.0.1
+
+Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+
+A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
+
+$ bash serve_eval.sh dsv2lite_awq_main '--model-path TechxGenus/DeepSeek-V2-Lite-Chat-AWQ --trust-remote-code'; sed -i 's/from sglang.kernel_api_logging import debug_kernel_api/from sglang.kernels.kernel_api_logging import debug_kernel_api/' /sgl/python/sglang/srt/models/deepseek_common/utils.py && grep -n 'kernel_api_logging' /sgl/python/sglang/srt/models/deepseek_common/utils.py | head -2; bash serve_eval.sh dsv2lite_awq_fixed '--model-path TechxGenus/DeepSeek-V2-Lite-Chat-AWQ --trust-remote-code'
+######## [dsv2lite_awq_main] launch_server --model-path TechxGenus/DeepSeek-V2-Lite-Chat-AWQ --trust-remote-code
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7:    30 Killed                  python3 -m sglang.launch_server $FLAGS --host 127.0.0.1 --port 30000 > $LOG 2>&1
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 8: curl: command not found
+[dsv2lite_awq_main] SERVER FAILED TO START
+38:[2026-10-24 15:06:39] Scheduler hit an exception: Traceback (most recent call last):
+79:ModuleNotFoundError: No module named 'sglang.kernel_api_logging'
+                         ^^^^^^^^^^^^
+  File "/sgl/python/sglang/srt/model_executor/model_runner.py", line 498, in __init__
+    self.initialize()
+  File "/sgl/python/sglang/srt/model_executor/model_runner.py", line 711, in initialize
+    self.load_model()
+  File "/sgl/python/sglang/srt/model_executor/model_runner.py", line 1311, in load_model
+    loaded = load_model_with_memory_saver(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sgl/python/sglang/srt/model_executor/model_runner_components/load_model_utils.py", line 346, in load_model_with_memory_saver
+    model = loader.load_model(
+            ^^^^^^^^^^^^^^^^^^
+  File "/sgl/python/sglang/srt/model_loader/loader.py", line 1020, in load_model
+    self.load_weights_and_postprocess(
+  File "/sgl/python/sglang/srt/model_loader/loader.py", line 1029, in load_weights_and_postprocess
+    DefaultModelLoader.load_weights_only(model, weights, target_device)
+  File "/sgl/python/sglang/srt/model_loader/loader.py", line 1063, in load_weights_only
+    model.load_weights(weights)
+  File "/sgl/python/sglang/srt/models/deepseek_v2.py", line 3428, in load_weights
+    self.do_load_weights(weights, is_nextn)
+  File "/sgl/python/sglang/srt/models/deepseek_common/deepseek_weight_loader.py", line 550, in do_load_weights
+    self.post_load_weights(is_nextn=is_nextn, weight_names=weight_names)
+  File "/sgl/python/sglang/srt/models/deepseek_common/deepseek_weight_loader.py", line 627, in post_load_weights
+    awq_dequantize_f = awq_dequantize_func()
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/sgl/python/sglang/srt/models/deepseek_common/utils.py", line 104, in awq_dequantize_func
+    from sglang.kernel_api_logging import debug_kernel_api
+ModuleNotFoundError: No module named 'sglang.kernel_api_logging'
+
+[2026-10-24 15:06:39] Received sigquit from a child process. It usually means the child failed.
+[2026-10-24 15:06:39] kill_process_tree called: parent_pid=30, include_parent=True, pid=30
+104:        from sglang.kernels.kernel_api_logging import debug_kernel_api
+109:        from sglang.kernels.kernel_api_logging import debug_kernel_api
+######## [dsv2lite_awq_fixed] launch_server --model-path TechxGenus/DeepSeek-V2-Lite-Chat-AWQ --trust-remote-code
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
+serve_eval.sh: line 7: curl: command not found
